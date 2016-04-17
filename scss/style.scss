@@ -1,0 +1,219 @@
+//IMPORTS
+@import url('https://fonts.googleapis.com/css?family=Fredoka+One');
+@import 'reset';
+
+//VARIABLES
+$main-color: floralwhite;
+$footer-color: #03315B;
+
+$footer-height: 100px;
+$margin-left-step: 0.4em;
+
+//full screen background image on body
+body {
+  background: url('../img/town_1920x1080.jpg') no-repeat center center fixed;
+  background-size: cover;
+  color: $main-color;
+  font-family: 'Fredoka One', sans-serif;
+}
+
+main {
+  margin-left: 3rem;
+  margin-top: 2rem;
+  width: 360px;
+}
+
+//virtual class for font rotation and alignment
+%main-font {
+  //rotate 3d stops pixelation on the cutout text bg - magic!
+  text-align: left;
+  transform: rotate3d(0, 0, 1, -3deg);
+}
+//virtual class for animation timings
+%fades-in {
+  animation-duration: 1s;
+  animation-fill-mode: both;
+  animation-name: fadein;
+}
+
+#infomation {
+  @extend %main-font;
+  line-height: 2.4em;
+
+  span {
+    @extend %fades-in;
+
+    //TODO. A JS toggle would be a better non webkit solution
+    //Webkit specific texture for text - add linear-gradient to ignore bg on none webkit
+    background: -webkit-linear-gradient(transparent, transparent), url('../img/paper.png');
+    background: -o-linear-gradient(transparent, transparent);
+    background-attachment: fixed;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+//Loop and create animations
+@for $i from 1 to 13 {
+  #infomation span:nth-child(#{$i}) {
+    animation-delay: $i * .4s;
+  }
+}
+
+//PLACE
+.place {
+  font-size: 3em;
+
+  //in
+  :nth-child(1) {
+    font-size: .5em;
+    text-transform: uppercase;
+    vertical-align: super;
+  }
+
+  //Santorini
+  :nth-child(2) {
+    letter-spacing: .055em;
+  }
+
+  //on the
+  :nth-child(3) {
+    font-size: .5em;
+    text-transform: uppercase;
+    vertical-align: bottom;
+  }
+}
+
+//DATE
+.date {
+  font-size: 4em;
+  margin-left: 2 * $margin-left-step;
+  position: relative;
+  vertical-align: top;
+
+  //date superscrpt
+  :nth-child(2) {
+    font-size: .3em;
+    position: absolute;
+    text-transform: uppercase;
+    top: .2em;
+  }
+  //month
+  :nth-child(3) {
+    font-size: .64em;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    vertical-align: baseline;
+  }
+}
+
+//groom
+.groom {
+  font-size: 3.5em;
+  margin-left: 3 * $margin-left-step;
+  text-transform: uppercase;
+  vertical-align: top;
+}
+//bride
+.bride {
+  font-size: 4em;
+  letter-spacing: 0.01em;
+  line-height: 1.2em;
+  margin-left: 4 * $margin-left-step;
+  text-transform: uppercase;
+}
+
+//event fades in an has a semi-transparent background
+#event {
+  @extend %main-font;
+  @extend %fades-in;
+  animation-delay: 4s;
+  background: rgba($main-color, .2);
+  font-size: 1.5em;
+  letter-spacing: .62em;
+  padding-bottom: 10px;
+  padding-left: .55em;
+  padding-top: 10px;
+}
+
+//Action paragraph fades in last, and has a subtle color change on hover
+.action {
+  @extend %main-font;
+  @extend %fades-in;
+  animation-delay: 5.5s;
+  font-size: 1.5em;
+  letter-spacing: .21em;
+  margin-left: 11 * $margin-left-step;
+  margin-top: 0.5em;
+  margin-right: -0.5em; //adjust for space in icon
+
+  a {
+    color: $main-color;
+    text-decoration: none;
+    transition: color 1s;
+  }
+
+  a:hover {
+    color: antiquewhite;
+  }
+}
+
+//Footer bg and link underlines fades in on hover
+footer {
+  background-color: rgba($footer-color, .2);
+  bottom: 0;
+  font-family: sans-serif;
+  font-size: .9em;
+  padding: 8px;
+  position: absolute;
+  text-align: center;
+  transition: background-color 1s;
+  width: 100%;
+
+  a {
+    color: $main-color;
+    text-decoration: none;
+  }
+}
+
+footer:hover {
+  background-color: rgba($footer-color, .7);
+
+  a {
+    text-decoration: underline;
+  }
+}
+
+//smaller font for mobiles in general
+@media only screen and (max-device-width : 736px){
+  body {
+    font-size: .5em;
+  }
+
+  main {
+    margin-left: 1rem;
+    margin-top: 1rem;
+    width: 20em;
+  }
+}
+//smaller portrait image for mobiles
+@media only screen and (max-device-width : 736px) and (orientation : portrait) {
+  body {
+    background: url('../img/sunset_mobile.jpg') no-repeat center center fixed;
+    background-size: cover;
+  }
+  
+  //change footer color to match photofooter 
+  footer {
+    background-color: rgba(black, .2);
+  }
+
+  footer:hover {
+    background-color: rgba(black, .7);
+  }
+}
+//opacity keyframes
+@keyframes fadein {
+  from { opacity: 0; }
+  to { opacity: .8; }
+}
